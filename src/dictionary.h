@@ -67,7 +67,7 @@ class Dictionary {
   static const std::string EOW;
 
   explicit Dictionary(std::shared_ptr<Args>);
-  explicit Dictionary(std::shared_ptr<Args>, std::istream&);
+  explicit Dictionary(std::shared_ptr<Args>, MemStream &);
   int32_t nwords() const;
   int32_t nlabels() const;
   int64_t ntokens() const;
@@ -93,7 +93,7 @@ class Dictionary {
   void readFromFile(std::istream&);
   std::string getLabel(int32_t) const;
   void save(std::ostream&) const;
-  void load(std::istream&);
+  void load(MemStream &);
   std::vector<int64_t> getCounts(entry_type) const;
   int32_t getLine(std::istream&, std::vector<int32_t>&, std::vector<int32_t>&)
       const;

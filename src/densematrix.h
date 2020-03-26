@@ -24,7 +24,7 @@ class Vector;
 
 class DenseMatrix : public Matrix {
  protected:
-  std::vector<real> data_;
+  MemVector<real> data_;
   void uniformThread(real, int, int32_t);
 
  public:
@@ -72,7 +72,7 @@ class DenseMatrix : public Matrix {
   void addRowToVector(Vector& x, int32_t i) const override;
   void addRowToVector(Vector& x, int32_t i, real a) const override;
   void save(std::ostream&) const override;
-  void load(std::istream&) override;
+  void load(MemStream&) override;
   void dump(std::ostream&) const override;
 
   class EncounteredNaNError : public std::runtime_error {

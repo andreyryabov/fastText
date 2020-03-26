@@ -237,7 +237,7 @@ void ProductQuantizer::save(std::ostream& out) const {
   out.write((char*)centroids_.data(), centroids_.size() * sizeof(real));
 }
 
-void ProductQuantizer::load(std::istream& in) {
+void ProductQuantizer::load(MemStream & in) {
   in.read((char*)&dim_, sizeof(dim_));
   in.read((char*)&nsubq_, sizeof(nsubq_));
   in.read((char*)&dsub_, sizeof(dsub_));

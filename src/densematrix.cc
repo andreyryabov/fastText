@@ -147,11 +147,10 @@ void DenseMatrix::save(std::ostream& out) const {
   out.write((char*)data_.data(), m_ * n_ * sizeof(real));
 }
 
-void DenseMatrix::load(std::istream& in) {
+void DenseMatrix::load(MemStream & in) {
   in.read((char*)&m_, sizeof(int64_t));
   in.read((char*)&n_, sizeof(int64_t));
-  data_ = std::vector<real>(m_ * n_);
-  in.read((char*)data_.data(), m_ * n_ * sizeof(real));
+  data_ = in.getVect<real>(m_ * n_);
 }
 
 void DenseMatrix::dump(std::ostream& out) const {

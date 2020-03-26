@@ -15,6 +15,7 @@
 
 #include <assert.h>
 #include "real.h"
+#include "memstream.h"
 
 namespace fasttext {
 
@@ -37,7 +38,7 @@ class Matrix {
   virtual void addRowToVector(Vector& x, int32_t i) const = 0;
   virtual void addRowToVector(Vector& x, int32_t i, real a) const = 0;
   virtual void save(std::ostream&) const = 0;
-  virtual void load(std::istream&) = 0;
+  virtual void load(MemStream&) = 0;
   virtual void dump(std::ostream&) const = 0;
 };
 

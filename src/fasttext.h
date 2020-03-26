@@ -27,6 +27,7 @@
 #include "real.h"
 #include "utils.h"
 #include "vector.h"
+#include "memstream.h"
 
 namespace fasttext {
 
@@ -46,7 +47,6 @@ class FastText {
   std::exception_ptr trainException_;
 
   void signModel(std::ostream&);
-  bool checkModel(std::istream&);
   void startThreads();
   void addInputVector(Vector&, int32_t) const;
   void trainThread(int32_t);
@@ -108,7 +108,9 @@ class FastText {
 
   void saveOutput(const std::string& filename);
 
-  void loadModel(std::istream& in);
+  bool checkModel(MemStream&);
+
+  void loadModel(MemStream& in);
 
   void loadModel(const std::string& filename);
 

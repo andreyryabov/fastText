@@ -13,6 +13,7 @@
 #include <string>
 #include <unordered_set>
 #include <vector>
+#include "memstream.h"
 
 namespace fasttext {
 
@@ -73,7 +74,7 @@ class Args {
   void printAutotuneHelp();
   void printQuantizationHelp();
   void save(std::ostream&);
-  void load(std::istream&);
+  void load(MemStream &);
   void dump(std::ostream&) const;
   bool hasAutotune() const;
   bool isManual(const std::string& argName) const;

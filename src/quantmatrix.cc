@@ -93,7 +93,7 @@ void QuantMatrix::save(std::ostream& out) const {
   }
 }
 
-void QuantMatrix::load(std::istream& in) {
+void QuantMatrix::load(MemStream & in) {
   in.read((char*)&qnorm_, sizeof(qnorm_));
   in.read((char*)&m_, sizeof(m_));
   in.read((char*)&n_, sizeof(n_));

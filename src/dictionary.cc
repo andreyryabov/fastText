@@ -32,7 +32,7 @@ Dictionary::Dictionary(std::shared_ptr<Args> args)
       ntokens_(0),
       pruneidx_size_(-1) {}
 
-Dictionary::Dictionary(std::shared_ptr<Args> args, std::istream& in)
+Dictionary::Dictionary(std::shared_ptr<Args> args, MemStream & in)
     : args_(args),
       size_(0),
       nwords_(0),
@@ -447,13 +447,14 @@ void Dictionary::save(std::ostream& out) const {
   }
 }
 
-void Dictionary::load(std::istream& in) {
-  words_.clear();
+void Dictionary::load(MemStream & in) {
   in.read((char*)&size_, sizeof(int32_t));
   in.read((char*)&nwords_, sizeof(int32_t));
   in.read((char*)&nlabels_, sizeof(int32_t));
   in.read((char*)&ntokens_, sizeof(int64_t));
   in.read((char*)&pruneidx_size_, sizeof(int64_t));
+  words_.clear();
+  words_.reserve(size_);
   for (int32_t i = 0; i < size_; i++) {
     char c;
     entry e;

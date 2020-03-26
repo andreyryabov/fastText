@@ -161,7 +161,7 @@ void FastText::saveOutput(const std::string& filename) {
   ofs.close();
 }
 
-bool FastText::checkModel(std::istream& in) {
+bool FastText::checkModel(MemStream & in) {
   int32_t magic;
   in.read((char*)&(magic), sizeof(int32_t));
   if (magic != FASTTEXT_FILEFORMAT_MAGIC_INT32) {
@@ -202,17 +202,17 @@ void FastText::saveModel(const std::string& filename) {
   ofs.close();
 }
 
-void FastText::loadModel(const std::string& filename) {
-  std::ifstream ifs(filename, std::ifstream::binary);
-  if (!ifs.is_open()) {
-    throw std::invalid_argument(filename + " cannot be opened for loading!");
-  }
-  if (!checkModel(ifs)) {
-    throw std::invalid_argument(filename + " has wrong file format!");
-  }
-  loadModel(ifs);
-  ifs.close();
-}
+//void FastText::loadModel(const std::string& filename) {
+//  std::ifstream ifs(filename, std::ifstream::binary);
+//  if (!ifs.is_open()) {
+//    throw std::invalid_argument(filename + " cannot be opened for loading!");
+//  }
+//  if (!checkModel(ifs)) {
+//    throw std::invalid_argument(filename + " has wrong file format!");
+//  }
+//  loadModel(ifs);
+//  ifs.close();
+//}
 
 std::vector<int64_t> FastText::getTargetCounts() const {
   if (args_->model == model_name::sup) {
@@ -228,7 +228,7 @@ void FastText::buildModel() {
   model_ = std::make_shared<Model>(input_, output_, loss, normalizeGradient);
 }
 
-void FastText::loadModel(std::istream& in) {
+void FastText::loadModel(MemStream & in) {
   args_ = std::make_shared<Args>();
   input_ = std::make_shared<DenseMatrix>();
   output_ = std::make_shared<DenseMatrix>();

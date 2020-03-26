@@ -16,6 +16,7 @@
 
 #include "real.h"
 #include "vector.h"
+#include "memstream.h"
 
 namespace fasttext {
 
@@ -57,7 +58,7 @@ class ProductQuantizer {
   void compute_codes(const real*, uint8_t*, int32_t) const;
 
   void save(std::ostream&) const;
-  void load(std::istream&);
+  void load(MemStream &);
 };
 
 } // namespace fasttext

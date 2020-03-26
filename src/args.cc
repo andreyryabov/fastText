@@ -7,6 +7,7 @@
  */
 
 #include "args.h"
+#include "memstream.h"
 
 #include <stdlib.h>
 
@@ -323,7 +324,7 @@ void Args::save(std::ostream& out) {
   out.write((char*)&(t), sizeof(double));
 }
 
-void Args::load(std::istream& in) {
+void Args::load(MemStream & in) {
   in.read((char*)&(dim), sizeof(int));
   in.read((char*)&(ws), sizeof(int));
   in.read((char*)&(epoch), sizeof(int));
