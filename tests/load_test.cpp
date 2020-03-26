@@ -22,10 +22,6 @@ int main() {
     cout<<"File size: "<<fileSize<<endl;
 
     FastText fastText;
-    if (!fastText.checkModel(mm)) {
-        throw invalid_argument(fileName + " has wrong file format!"s);
-    }
-
     fastText.loadModel(mm);
     Vector v(fastText.getDimension());
     fastText.getWordVector(v, "hello");

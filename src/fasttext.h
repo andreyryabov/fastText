@@ -73,6 +73,7 @@ class FastText {
   void precomputeWordVectors(DenseMatrix& wordVectors);
   bool keepTraining(const int64_t ntokens) const;
   void buildModel();
+  bool checkModel(MemStream&);
 
  public:
   FastText();
@@ -107,8 +108,6 @@ class FastText {
   void saveModel(const std::string& filename);
 
   void saveOutput(const std::string& filename);
-
-  bool checkModel(MemStream&);
 
   void loadModel(MemStream& in);
 

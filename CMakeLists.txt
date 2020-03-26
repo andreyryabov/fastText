@@ -31,7 +31,8 @@ set(HEADER_FILES
         src/quantmatrix.h
         src/real.h
         src/utils.h
-        src/vector.h)
+        src/vector.h
+        src/memstream.h)
 
 set(SOURCE_FILES
         src/args.cc
@@ -47,7 +48,8 @@ set(SOURCE_FILES
         src/productquantizer.cc
         src/quantmatrix.cc
         src/utils.cc
-        src/vector.cc)
+        src/vector.cc
+        src/memstream.cc)
 
 add_library(fasttext-shared SHARED ${SOURCE_FILES} ${HEADER_FILES})
 add_library(fasttext-static STATIC ${SOURCE_FILES} ${HEADER_FILES})

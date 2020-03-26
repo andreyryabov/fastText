@@ -229,6 +229,10 @@ void FastText::buildModel() {
 }
 
 void FastText::loadModel(MemStream & in) {
+  if (!checkModel(in)) {
+    throw std::invalid_argument("wrong file format!");
+  }
+
   args_ = std::make_shared<Args>();
   input_ = std::make_shared<DenseMatrix>();
   output_ = std::make_shared<DenseMatrix>();
