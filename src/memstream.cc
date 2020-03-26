@@ -29,6 +29,15 @@ int MemStream::get() {
     return _data[_ptr++];
 }
 
+string_view MemStream::getStringView() {
+    auto s = _data + _ptr;
+    size_t size = 0;
+    while (_data[_ptr++] != 0) {
+        size++;
+    }
+    return {(char*)s, size};
+}
+
 void MemStream::read(void * dest, size_t size) {
     if (_ptr + size > _size) {
         throw runtime_error("MemStream::read out of range");

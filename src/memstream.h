@@ -74,13 +74,11 @@ class MemVector {
 
 class MemStream {
   public:
-    int  get();
     void read(void *, size_t);
-
+    int              get();
+    std::string_view getStringView();
     template<typename T_>
-    MemVector<T_> getVect(size_t numbrer) {
-        return {(T_*)allocate(numbrer * sizeof(T_)), numbrer};
-    }
+    MemVector<T_>    getVect(size_t numbrer);
 
     MemStream(void *, size_t);
   private:
@@ -90,5 +88,10 @@ class MemStream {
     size_t _size;
     size_t _ptr{0};
 };
+
+template<typename T_>
+MemVector<T_> MemStream::getVect(size_t numbrer) {
+    return {(T_*)allocate(numbrer * sizeof(T_)), numbrer};
+}
 
 }

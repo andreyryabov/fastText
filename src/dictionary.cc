@@ -42,6 +42,19 @@ Dictionary::Dictionary(std::shared_ptr<Args> args, MemStream & in)
   load(in);
 }
 
+int32_t Dictionary::find(const std::string_view & w) const {
+    return find(w, hash(w));
+}
+
+int32_t Dictionary::find(const std::string_view & w, uint32_t h) const {
+    int32_t word2intsize = word2int_.size();
+    int32_t id = h % word2intsize;
+    while (word2int_[id] != -1 && words_[word2int_[id]].word != w) {
+        id = (id + 1) % word2intsize;
+    }
+    return id;
+}
+
 int32_t Dictionary::find(const std::string& w) const {
   return find(w, hash(w));
 }
@@ -56,6 +69,7 @@ int32_t Dictionary::find(const std::string& w, uint32_t h) const {
 }
 
 void Dictionary::add(const std::string& w) {
+  throw std::runtime_error("Dictionary::add - not implemented");
   int32_t h = find(w);
   ntokens_++;
   if (word2int_[h] == -1) {
@@ -110,7 +124,7 @@ void Dictionary::getSubwords(
   substrings.clear();
   if (i >= 0) {
     ngrams.push_back(i);
-    substrings.push_back(words_[i].word);
+    substrings.emplace_back(words_[i].word);
   }
   if (word != EOS) {
     computeSubwords(BOW + word + EOW, ngrams, &substrings);
@@ -149,7 +163,7 @@ entry_type Dictionary::getType(const std::string& w) const {
 std::string Dictionary::getWord(int32_t id) const {
   assert(id >= 0);
   assert(id < size_);
-  return words_[id].word;
+  return std::string(words_[id].word);
 }
 
 // The correct implementation of fnv should be:
@@ -160,7 +174,7 @@ std::string Dictionary::getWord(int32_t id) const {
 // Since all fasttext models that were already released were trained
 // using signed char, we fixed the hash function to make models
 // compatible whatever compiler is used.
-uint32_t Dictionary::hash(const std::string& str) const {
+uint32_t Dictionary::hash(const std::string & str) const {
   uint32_t h = 2166136261;
   for (size_t i = 0; i < str.size(); i++) {
     h = h ^ uint32_t(int8_t(str[i]));
@@ -168,6 +182,16 @@ uint32_t Dictionary::hash(const std::string& str) const {
   }
   return h;
 }
+
+uint32_t Dictionary::hash(const std::string_view & str) const {
+    uint32_t h = 2166136261;
+    for (size_t i = 0; i < str.size(); i++) {
+        h = h ^ uint32_t(int8_t(str[i]));
+        h = h * 16777619;
+    }
+    return h;
+}
+
 
 void Dictionary::computeSubwords(
     const std::string& word,
@@ -196,7 +220,7 @@ void Dictionary::computeSubwords(
 
 void Dictionary::initNgrams() {
   for (size_t i = 0; i < size_; i++) {
-    std::string word = BOW + words_[i].word + EOW;
+    std::string word = BOW + std::string(words_[i].word) + EOW;
     words_[i].subwords.clear();
     words_[i].subwords.push_back(i);
     if (words_[i].word != EOS) {
@@ -425,7 +449,7 @@ std::string Dictionary::getLabel(int32_t lid) const {
     throw std::invalid_argument(
         "Label id is out of range [0, " + std::to_string(nlabels_) + "]");
   }
-  return words_[lid + nwords_].word;
+  return std::string(words_[lid + nwords_].word);
 }
 
 void Dictionary::save(std::ostream& out) const {
@@ -456,11 +480,8 @@ void Dictionary::load(MemStream & in) {
   words_.clear();
   words_.reserve(size_);
   for (int32_t i = 0; i < size_; i++) {
-    char c;
     entry e;
-    while ((c = in.get()) != 0) {
-      e.word.push_back(c);
-    }
+    e.word = in.getStringView();
     in.read((char*)&e.count, sizeof(int64_t));
     in.read((char*)&e.type, sizeof(entry_type));
     words_.push_back(e);

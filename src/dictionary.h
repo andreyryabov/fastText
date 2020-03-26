@@ -25,7 +25,7 @@ typedef int32_t id_type;
 enum class entry_type : int8_t { word = 0, label = 1 };
 
 struct entry {
-  std::string word;
+  std::string_view word;
   int64_t count;
   entry_type type;
   std::vector<int32_t> subwords;
@@ -35,6 +35,9 @@ class Dictionary {
  protected:
   static const int32_t MAX_VOCAB_SIZE = 30000000;
   static const int32_t MAX_LINE_SIZE = 1024;
+
+  int32_t find(const std::string_view &) const;
+  int32_t find(const std::string_view &, uint32_t h) const;
 
   int32_t find(const std::string&) const;
   int32_t find(const std::string&, uint32_t h) const;
@@ -87,6 +90,7 @@ class Dictionary {
       const std::string&,
       std::vector<int32_t>&,
       std::vector<std::string>* substrings = nullptr) const;
+  uint32_t hash(const std::string_view& str) const;
   uint32_t hash(const std::string& str) const;
   void add(const std::string&);
   bool readWord(std::istream&, std::string&) const;
