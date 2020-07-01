@@ -228,6 +228,9 @@ void FastText::buildModel() {
   model_ = std::make_shared<Model>(input_, output_, loss, normalizeGradient);
 }
 
+void FastText::loadModel(const std::string & fileName) {
+}
+
 void FastText::loadModel(MemStream & in) {
   if (!checkModel(in)) {
     throw std::invalid_argument("wrong file format!");
