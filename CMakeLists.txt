@@ -8,6 +8,7 @@
 
 cmake_minimum_required(VERSION 2.8.9)
 project(fasttext)
+include(../../common/cmake/_settings.cmake)
 
 # The version number.
 set (fasttext_VERSION_MAJOR 0)
@@ -15,7 +16,7 @@ set (fasttext_VERSION_MINOR 1)
 
 include_directories(fasttext)
 
-set(CMAKE_CXX_FLAGS " -pthread -std=c++11 -funroll-loops -O3 -march=native")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -funroll-loops -O3 -march=native")
 
 set(HEADER_FILES
         src/args.h
