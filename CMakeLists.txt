@@ -8,7 +8,6 @@
 
 cmake_minimum_required(VERSION 2.8.9)
 project(fasttext)
-include(../../common/cmake/_settings.cmake)
 
 # The version number.
 set (fasttext_VERSION_MAJOR 0)
